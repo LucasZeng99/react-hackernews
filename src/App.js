@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      count: 0,
+    }
+  }
+
+  addOne = () => {
+    console.log("added one", this)
+    this.setState(state => ({
+      count: state.count + 1
+    }))
+  }
+  what = () => {
+    console.log(this)
+    return this
+  }
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <button onClick={this.addOne}> click me </button>
+        <p>you clicked me {this.state.count} times.</p>
+        <div className="this" onClick={this.what}><button>what is this fuck</button></div>
       </div>
     );
   }
