@@ -13,11 +13,20 @@ const api = createAPI({
   }
 })
 
-export function fetch (child) {
+function fetch (child) {
   return new Promise((resolve, reject) => {
     api.child(child).once('value', snapshot => {
       const val = snapshot.val() // why const here?
       resolve(val)
     }, reject)
   })
+}
+
+export function fetchIDsByType (type) {
+  return fetch(`${type}stories`)
+}
+// chekcout https://github.com/HackerNews/API on the bottoms.
+// database snapshots: https://firebase.google.com/docs/reference/js/firebase.database.DataSnapshot
+export function fetchItems (ids) {
+  return Promise.all(ids.map(id => fetch(`item/${id}`)))
 }
