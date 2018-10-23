@@ -12,3 +12,12 @@ const api = createAPI({
     databaseURL: 'https://hacker-news.firebaseio.com'
   }
 })
+
+export function fetch (child) {
+  return new Promise((resolve, reject) => {
+    api.child(child).once('value', snapshot => {
+      const val = snapshot.val() // why const here?
+      resolve(val)
+    }, reject)
+  })
+}

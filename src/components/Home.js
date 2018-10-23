@@ -1,13 +1,17 @@
-import React, {
-  Component
-} from 'react'
-
+import React, { Component } from 'react'
+import { fetch } from '../api'
 class Home extends Component {
   constructor() {
     super()
     this.state = {
 
     }
+  }
+  componentWillMount () {
+    fetch('topstories')
+      .then(res => {
+        console.log(res)
+      })
   }
   render() {
     return ( 
