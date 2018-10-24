@@ -8,6 +8,8 @@ export default function NavBar () {
         <Link to="/top">Top</Link>
         <Link to="/new">New</Link>
         <Link to="/show">Show</Link>
+        <Link to="/ask">ask</Link>
+        <Link to="/job">jobs</Link>
       </ul>
     </div>
   )

@@ -3,6 +3,7 @@ import { fetchIDsByType, fetchItemsByIds } from '../api'
 /**
  * store: 
  *  store fetched data from api,
+ *  control displayed/active items in a list view.
  *  cache them.
  *  
  *  expose API to ListView Components.
@@ -10,14 +11,14 @@ import { fetchIDsByType, fetchItemsByIds } from '../api'
  * 
  *  TODO: use object to store multiple type of lists.
  */
-const itemPerPage = 20
+const itemPerPage = 68
 let listStore = {
   items: {
     "top": [],
     "new": [],
     "show": [],
     "ask": [],
-    "jobs": []
+    "job": []
   },
   activeItems: [],
   page: 1,
@@ -29,8 +30,7 @@ export function storeInitialItems(type) {
   if (listStore.items[type].length > 1) {
     return new Promise((resolve, reject) => {
       updateActiveItems(1, type)
-      console.log(listStore.activeItems)
-      resolve(listStore.activeItems)
+      resolve([listStore.activeItems, getMaxPage(type)])
     })
   }
   else {
@@ -40,7 +40,7 @@ export function storeInitialItems(type) {
         .then(items => {
           // items is [Object: 500] each a story content object.
           updataListStore(type, 1, items) // TODO: cache fetched types. => using items as an object
-          resolve(listStore.activeItems) // allow component to change loacl items with then()
+          resolve([listStore.activeItems, getMaxPage(type)]) // allow component to change loacl items with then()
         })
         .catch(err => {
           console.log(err)
@@ -48,6 +48,10 @@ export function storeInitialItems(type) {
         })
     })
   }
+}
+function getMaxPage (type) {
+  // console.log(listStore.items[type].length / itemPerPage,Number.parseInt(listStore.items[type].length / itemPerPage), (listStore.items[type].length % itemPerPage > 0) )
+  return Number.parseInt(listStore.items[type].length / itemPerPage) + (listStore.items[type].length % itemPerPage > 0)
 }
 
 function updataListStore (type, page, items) {
@@ -58,12 +62,14 @@ function updataListStore (type, page, items) {
   console.log("listStore updated: ", listStore)
 }
 
-function updateActiveItems(page, type) {
+function updateActiveItems(page, type=listStore.type) {
   // will update according to both type and page.
+  listStore.type = type
   if (page < 1) page = 1
   let start = (page - 1) * itemPerPage
   let end = (page) * itemPerPage
-  console.log("will slice from ", start, end)
+
+  console.log("will slice from ", start, end, type)
   listStore.activeItems = listStore.items[type].slice(start, end).filter(_ => _)
 }
 

@@ -7,21 +7,24 @@ class ListView extends Component {
     this.state = {
       type: this.props.type,
       activeItems: [],
-      page: 1
+      page: 1,
+      maxPage: 0
     }
   }
 
   componentWillMount () {
     storeInitialItems(this.state.type)
-      .then(activeItems => {
+      .then(([activeItems, maxPage]) => {
         this.setState({
-          activeItems
+          activeItems,
+          maxPage
         })
+        console.log(this.state.maxPage)
       })
   }
 
   updatePage (pageNum) {
-    if (!this.state.activeItems || pageNum < 1) {
+    if (!this.state.activeItems || pageNum < 1 || pageNum > this.state.maxPage) {
       return
     }
     this.setState({
@@ -34,12 +37,12 @@ class ListView extends Component {
       <div className="list-view">
         This is list view.
         my props are: {this.props.type}
-        <div className="item">
-          {this.state.activeItems.map((item, i) => <ListCard item={item} key={i}/>)}
-        </div>
         <div className="list-paginator">
           <p onClick={() => this.updatePage(this.state.page - 1)}>&lsaquo;prev</p><div>when page changes, update state.activeItems by fetching from store</div>
           <p onClick={() => this.updatePage(this.state.page + 1)}>next&rsaquo;</p>
+        </div>
+        <div className="item">
+          {this.state.activeItems.map((item, i) => <ListCard item={item} key={i}/>)}
         </div>
       </div>
     )

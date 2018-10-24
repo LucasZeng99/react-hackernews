@@ -14,7 +14,7 @@ export default class HNRouter extends React.Component {
           <Route exact path="/new"  component={()  => <ListView type="new"/>} />
           <Route exact path="/show" component={() => <ListView type="show"/>} />
           <Route exact path="/ask"  component={()  => <ListView type="ask"/>} />
-          <Route exact path="/jobs" component={() => <ListView type="jobs"/>} />
+          <Route exact path="/job" component={() => <ListView type="job"/>} />
           </div>
       </Router>
     )

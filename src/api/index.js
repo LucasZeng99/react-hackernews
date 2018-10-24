@@ -23,6 +23,7 @@ function fetch (child) {
 }
 
 export function fetchIDsByType (type) {
+  console.log(`fetching ${type}stories`)
   return fetch(`${type}stories`)
 }
 // chekcout https://github.com/HackerNews/API on the bottoms.
