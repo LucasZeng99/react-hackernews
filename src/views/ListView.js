@@ -1,41 +1,45 @@
 import React, { Component } from 'react'
-import {fetchIDsByType, fetchItems} from '../api'
-
+// import {fetchIDsByType, fetchItemsByIds} from '../api'
+import { storeInitialItems, getActiveItemsByPage } from '../store'
 class ListView extends Component {
   constructor(props) {
     super(props)
     this.state = {
       type: this.props.type,
-      activeId: [],
-      items: [],
-      activeItems: []
+      activeItems: [],
+      page: 1
     }
   }
 
   componentWillMount () {
-    fetchIDsByType(this.props.type)
-      .then(res => fetchItems(res))
-      .then(items => {
-        // console.log(items)
-        this.setState({items: items})
+    storeInitialItems(this.state.type)
+      .then(activeItems => {
+        this.setState({
+          activeItems
+        })
       })
   }
 
-  componentDidMount () {
-    
-  }
-
-  ActiveItemsByPages () {
-    
+  updatePage (pageNum) {
+    if (!this.state.activeItems || pageNum < 1) {
+      return
+    }
+    this.setState({
+      activeItems: getActiveItemsByPage(pageNum),
+      page: pageNum
+    })
   }
   render () {
     return (
       <div className="list-view">
         This is list view.
         my props are: {this.props.type}
-        my list is: {this.state.activeId}
         <div className="item">
-          {this.state.items.map((item, i) => <ListCard item={item} key={i}/>)}
+          {this.state.activeItems.map((item, i) => <ListCard item={item} key={i}/>)}
+        </div>
+        <div className="list-paginator">
+          <p onClick={() => this.updatePage(this.state.page - 1)}>&lsaquo;prev</p><div>when page changes, update state.activeItems by fetching from store</div>
+          <p onClick={() => this.updatePage(this.state.page + 1)}>next&rsaquo;</p>
         </div>
       </div>
     )

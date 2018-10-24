@@ -27,6 +27,6 @@ export function fetchIDsByType (type) {
 }
 // chekcout https://github.com/HackerNews/API on the bottoms.
 // database snapshots: https://firebase.google.com/docs/reference/js/firebase.database.DataSnapshot
-export function fetchItems (ids) {
+export function fetchItemsByIds (ids) {
   return Promise.all(ids.map(id => fetch(`item/${id}`)))
 }
