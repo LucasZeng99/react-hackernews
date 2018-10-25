@@ -31,3 +31,7 @@ export function fetchIDsByType (type) {
 export function fetchItemsByIds (ids) {
   return Promise.all(ids.map(id => fetch(`item/${id}`)))
 }
+
+export function fetchItemById (id) {
+  return fetch(`item/${id}`)
+}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import {fetchIDsByType, fetchItemsByIds} from '../api'
-import { storeInitialItems, getActiveItemsByPage } from '../store'
+import { initListStore, getActiveItemsByPage } from '../store'
 import ListCard from '../components/ListCard'
 
 class ListView extends Component {
@@ -15,7 +15,7 @@ class ListView extends Component {
   }
 
   componentWillMount () {
-    storeInitialItems(this.state.type)
+    initListStore(this.state.type)
       .then(([activeItems, maxPage]) => {
         this.setState({
           activeItems,
