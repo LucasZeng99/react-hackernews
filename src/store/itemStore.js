@@ -10,6 +10,6 @@ export function updateItemStore(item) {
 }
 
 export function fetchItemFromStore (id) {
-  // console.log("fetching from store with id ", id)
+  // console.log("fetching from store with id ", id, "got stuff ", itemStore[id], "length is now ", Object.keys(itemStore))
   return itemStore[id]
 }

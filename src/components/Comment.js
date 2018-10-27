@@ -11,7 +11,8 @@ export default class Comment extends Component {
       id: this.props.id,
       layer: this.props.layer,
       kids: []
-    } 
+    }
+    // console.log("item： ", this.state.item)
   }
 
   componentDidMount () {
@@ -19,20 +20,18 @@ export default class Comment extends Component {
   }
 
   fetchSubComments() {
-    if (this.state.item.kids) {
+    if (this.state.item && this.state.item.kids) {
       this.setState({kids: this.state.item.kids})
     }
   }
 
   render () {
-    console.log("comment rendered")
+    // console.log("comment rendered")
     let layer = this.state.layer
+    if (this.state.item === undefined) return null
     return (
       <div className={`item-comment comment-layer-${layer}`}>
-        {this.state.item.title}
-        {this.state.item.text}
-        <p>.</p>
-        <p>.</p>
+        <div dangerouslySetInnerHTML={{__html: this.state.item.text}}></div>
           { this.state.kids ? 
               (
                 <div>
@@ -45,8 +44,6 @@ export default class Comment extends Component {
               )
               : (<div></div>)
           }
-
-        <p>=========================</p>
       </div>
     )
   }

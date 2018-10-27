@@ -22,7 +22,7 @@ export default class ItemView extends Component {
           item,
           kidsLength: item.descendants
         })
-        console.log(item)
+        // console.log(item)
       })
       
     this.fetchComments(this.state.id)
@@ -35,25 +35,24 @@ export default class ItemView extends Component {
         let itemObj = {}
         itemObj[item.id] = item
         updateItemStore(itemObj)
+        this.setState({
+          fetchedCount: this.state.fetchedCount+ 1,
+        })
+
         if (item.kids)  {
           item.kids.forEach(childId => {
             if (childId) this.fetchComments(childId)
           })
         }
-
-        this.setState({
-          fetchedCount: this.state.fetchedCount+ 1,
-        })
       })
   }
   render () {
-    if (this.state.fetchedCount >= this.state.kidsLength ){
+    // console.log("count: ",this.state.fetchedCount)
+    if (this.state.fetchedCount >= this.state.kidsLength){
       return (
         <div className="item-content">
-          {this.props.match.params.id}
-          <div className="item-title">{this.state.item.title}</div>
-          <div className="item-url">{this.state.item.url}</div>
-          <p>{this.state.item.text}</p>
+          {this.state.item.title}
+          
           {this.state.item.kids.map((id, key)=> (
               <Comment id={id} key={id} layer={0}/>
           ))}
