@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import {fetchIDsByType, fetchItemsByIds} from '../api'
-import { initListStore, getActiveItemsByPage } from '../store'
+import { initListStore, getActiveItemsByPage } from '../store/listStore'
 import ListCard from '../components/ListCard'
 
 class ListView extends Component {
