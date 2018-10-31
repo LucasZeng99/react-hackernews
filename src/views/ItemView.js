@@ -52,7 +52,8 @@ export default class ItemView extends Component {
   }
   render () {
     // console.log("count: ",this.state.fetchedCount)
-    if (this.state.fetchedCount >= this.state.kidsLength){
+    if (this.state.fetchedCount >= this.state.kidsLength 
+      ){
       return (
         <div className="item-content">
           <ItemHead item={this.state.item}/>
@@ -72,6 +73,7 @@ export default class ItemView extends Component {
 
 let ItemHead = (props) => {
   let item = props.item
+  if (!item) return;
   // console.log(item, item.time)
   let [timeDifference, phrase] = timeDiff(item.time)
   return (

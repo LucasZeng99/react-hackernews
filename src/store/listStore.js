@@ -11,7 +11,7 @@ import { fetchIDsByType, fetchItemsByIds } from '../api'
  * 
  *  TODO: use object to store multiple type of lists.
  */
-const itemPerPage = 68
+const itemPerPage = 20
 let listStore = {
   items: {
     "top": [],

@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { initListStore, getActiveItemsByPage } from '../store/listStore'
 import { ListCard } from '../components/ListCard'
 
-class ListView extends Component {
+export default class ListView extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -41,8 +41,8 @@ class ListView extends Component {
         This is list view.
         my props are: {this.props.type}
         <div className="list-paginator">
-          <p onClick={() => this.updatePage(this.state.page - 1)}>&lsaquo;prev</p><div>when page changes, update state.activeItems by fetching from store</div>
-          <p onClick={() => this.updatePage(this.state.page + 1)}>next&rsaquo;</p>
+          <div className="paginator-container"><p onClick={() => this.updatePage(this.state.page - 1)}>&lsaquo;prev</p><div>{this.state.page}|{this.state.maxPage} </div>
+          <p onClick={() => this.updatePage(this.state.page + 1)}>next&rsaquo;</p></div>
         </div>
         <div className="item">
           {this.state.activeItems.map((item, i) => <ListCard item={item} key={i}/>)}
@@ -52,4 +52,4 @@ class ListView extends Component {
   }
 }
 
-export default ListView
+

@@ -1,9 +1,9 @@
 import React from 'react';
-// import logo from './logo.svg';
-// import './App.css';
 import Router from './router';
 
-import './css/layout.sass'
+import './css/itemView.css'
+import './css/layout.css'
+import './index.css'
 class App extends React.Component {
   render() {
     return (
