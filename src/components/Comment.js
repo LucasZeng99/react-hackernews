@@ -26,7 +26,7 @@ export default class Comment extends Component {
   }
 
   render () {
-    // console.log("comment rendered")
+    console.log("comment rendered")
     let layer = this.state.layer
     if (this.state.item === undefined) return null
     return (

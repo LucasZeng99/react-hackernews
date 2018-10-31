@@ -11,63 +11,44 @@ export default class ItemView extends Component {
       item: {
         title: '',
         url: '',
-        kids: []
+        kids: [],
       },
+      update: false,
       id: this.props.match.params.id,
-      fetchedCount: -1,
-      
     }
 
-    // fetch the parent item
-    fetchItemById(this.props.match.params.id)
-      .then(item => {
-        this.setState({
-          item,
-          kidsLength: item.descendants
-        })
-        // console.log(item)
-      })
-    
-    this.fetchComments(this.state.id)
+    // fetch parent and all comments
+    this.fetchComments(this.state.id, {})
   }
 
-  fetchComments(id) {
-    // the initial call is duplicant.
-    fetchItemById(id)
-      .then(item => {
-        // console.log("before children ids: ", item)
-        let itemObj = {}
-        itemObj[item.id] = item
-        updateItemStore(itemObj)
-        this.setState({
-          fetchedCount: this.state.fetchedCount+ 1,
-        })
+  async fetchComments(id) {
+    let item = await fetchItemById(id)
+    let isRootItem = (id === this.state.id)
+    // set root to enable rerender
+    if (isRootItem) this.setState({ item })
 
-        if (item.kids)  {
-          item.kids.forEach(childId => {
-            if (childId) this.fetchComments(childId)
-          })
-        }
-      })
+    // make a {id: item} object to merge with itemStore.
+    let storeObj = {}
+    storeObj[item.id] = item
+    updateItemStore(storeObj)
+
+    // wait and recursively fetch comments.
+    if (item.kids) await Promise.all(item.kids.map(id => this.fetchComments(id)))
+  
+    // rerender after all fetch finished.
+    if (isRootItem) this.setState({update: true})
   }
+
   render () {
-    // console.log("count: ",this.state.fetchedCount)
-    if (this.state.fetchedCount >= this.state.kidsLength 
-      ){
-      return (
-        <div className="item-content">
-          <ItemHead item={this.state.item}/>
-          {this.state.item.kids.map((id, key)=> (
-              <Comment id={id} key={id} layer={0}/>
-          ))}
-        </div>
-      )
-    }
-    else {
-      return (
-        <ItemHead item={this.state.item}/>
-      )
-    }
+    let state = this.state
+    return (
+      <div className="item-content">
+        {state.item.url && (<ItemHead item={this.state.item}/>)}
+        {state.update && state.item.kids && state.item.kids.map(id => (
+            <Comment id={id} key={id} layer={0}/>
+        ))}
+      </div>
+    )
   }
 }
 
