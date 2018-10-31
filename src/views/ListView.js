@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
+// import { Link } from 'react-router-dom'
 // import {fetchIDsByType, fetchItemsByIds} from '../api'
 import { initListStore, getActiveItemsByPage } from '../store/listStore'
-import ListCard from '../components/ListCard'
+import { ListCard } from '../components/ListCard'
 
 class ListView extends Component {
   constructor(props) {

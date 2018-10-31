@@ -1,8 +1,6 @@
 import { Object } from 'core-js';
 
-let itemStore = {
-
-}
+let itemStore = {}
 
 export function updateItemStore(item) {
   // console.log("updating item store")

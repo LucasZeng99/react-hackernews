@@ -3,6 +3,7 @@ import { updateItemStore } from '../store/itemStore'
 import { fetchItemById } from '../api'
 
 import Comment from '../components/Comment'
+import { timeDiff, titleLink } from '../components/ListCard'
 export default class ItemView extends Component {
   constructor(props) {
     super(props)
@@ -16,6 +17,8 @@ export default class ItemView extends Component {
       fetchedCount: -1,
       
     }
+
+    // fetch the parent item
     fetchItemById(this.props.match.params.id)
       .then(item => {
         this.setState({
@@ -24,11 +27,12 @@ export default class ItemView extends Component {
         })
         // console.log(item)
       })
-      
+    
     this.fetchComments(this.state.id)
   }
 
   fetchComments(id) {
+    // the initial call is duplicant.
     fetchItemById(id)
       .then(item => {
         // console.log("before children ids: ", item)
@@ -51,8 +55,7 @@ export default class ItemView extends Component {
     if (this.state.fetchedCount >= this.state.kidsLength){
       return (
         <div className="item-content">
-          {this.state.item.title}
-          
+          <ItemHead item={this.state.item}/>
           {this.state.item.kids.map((id, key)=> (
               <Comment id={id} key={id} layer={0}/>
           ))}
@@ -61,12 +64,24 @@ export default class ItemView extends Component {
     }
     else {
       return (
-        <div className="item-content">
-          {this.props.match.params.id}
-          <div className="item-title">{this.state.item.title}</div>
-          <div className="item-url">{this.state.item.url}</div>
-          </div>
+        <ItemHead item={this.state.item}/>
       )
     }
   }
+}
+
+let ItemHead = (props) => {
+  let item = props.item
+  // console.log(item, item.time)
+  let [timeDifference, phrase] = timeDiff(item.time)
+  return (
+    <div className="item-head">
+          <div className="item-title">{item.title}</div>
+          <div className="item-score">{item.score}</div>
+          <div className="item-link">{titleLink(item)}</div>
+          <div className="item-by">By {item.by}</div>
+          <div className="item-time">{timeDifference} {phrase} ago </div>
+          <div className="item-descendants">{item.descendants} comments</div>
+    </div>
+  )
 }
