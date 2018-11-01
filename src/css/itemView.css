@@ -2,7 +2,9 @@
 
 .item-content {
     max-width: 800px;
-    margin: 0 auto;
+    margin: auto;
+    display: block;
+    overflow-x: hidden;
 }
 
 .item-head {

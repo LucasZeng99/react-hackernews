@@ -10,7 +10,7 @@
 
 ---
 
-every file and char is made with heart. If you find it flawed or yet to improve, please inform me via github issues. 
+files and chars are considered and created. If you find it flawed or yet to improve, please inform me via github issues. 
 
 My target of mocking is https://vue-hn.now.sh, made with Vue, please do check it out.
 
