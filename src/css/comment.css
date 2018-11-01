@@ -1,0 +1,40 @@
+.item-comment {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #393941;
+}
+
+.item-comment > p {
+    font-size: 0.9rem;   
+}
+.comment-meta {
+    color: #777;
+    padding: 10px 0;
+}
+
+.item-comment > div > p {
+    margin-top: 10px;
+}
+
+.item-comment {
+    margin-top: 10px;
+    position: relative;
+}
+.item-comment > .toggle {
+    margin: 0;
+    position: absolute;
+    top: -10px; left: -20px;
+}
+
+div.fold {
+    border-top: none;
+    height: 15px;
+    margin: 10px 0;
+}
+
+.fold > .toggle {
+    width: 100%; height: 15px;
+    padding: 5px;
+    background-color: rgb(241, 226, 239);
+    border-radius: 2px;
+}

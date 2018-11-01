@@ -3,7 +3,7 @@ import { updateItemStore } from '../store/itemStore'
 import { fetchItemById } from '../api'
 
 import Comment from '../components/Comment'
-import { timeDiff, titleLink } from '../components/ListCard'
+import { timeDiff, titleLink, urlHost } from '../components/ListCard'
 export default class ItemView extends Component {
   constructor(props) {
     super(props)
@@ -43,10 +43,17 @@ export default class ItemView extends Component {
     let state = this.state
     return (
       <div className="item-content">
-        {state.item.url && (<ItemHead item={this.state.item}/>)}
-        {state.update && state.item.kids && state.item.kids.map(id => (
+        {state.item.title && (<ItemHead item={this.state.item}/>)}
+        <div className="item-comments">
+          <div className="comment-count">
+            {state.item.title && 
+              (state.item.descendants > 0 ? `${state.item.descendants} comments`
+                                          : `0 comment`)}
+          </div>
+          {state.update && state.item.kids && state.item.kids.map(id => (
             <Comment id={id} key={id} layer={0}/>
-        ))}
+          ))}
+        </div>
       </div>
     )
   }
@@ -59,12 +66,19 @@ let ItemHead = (props) => {
   let [timeDifference, phrase] = timeDiff(item.time)
   return (
     <div className="item-head">
-          <div className="item-title">{item.title}</div>
-          <div className="item-score">{item.score}</div>
-          <div className="item-link">{titleLink(item)}</div>
-          <div className="item-by">By {item.by}</div>
-          <div className="item-time">{timeDifference} {phrase} ago </div>
-          <div className="item-descendants">{item.descendants} comments</div>
+      <div className="item-title">
+        {titleLink(item)}
+        {urlHost(item.url) ? (<p>({urlHost(item.url)})</p>) : null}
+      </div>
+      <div className="item-meta">
+        <div className="item-score">
+          {item.score} 
+          {item.score > 1 ? ' points' : ' point'}
+        </div>
+        <div>|</div>
+        <div className="item-by">by {item.by},</div>
+        <div className="item-time">{timeDifference} {phrase} ago </div>
+      </div>
     </div>
   )
 }

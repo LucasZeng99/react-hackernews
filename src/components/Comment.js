@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {fetchItemFromStore} from '../store/itemStore'
-
+import { timeDiff } from './ListCard'
 export default class Comment extends Component {
   // props: id of a comment.
   constructor(props) {
@@ -10,9 +10,12 @@ export default class Comment extends Component {
       comments: [''],
       id: this.props.id,
       layer: this.props.layer,
-      kids: []
+      kids: [],
+      toggle: true,
+      toggleTxt: '[-]'
     }
     // console.log("item： ", this.state.item)
+    // console.log(this.state.item.text)
   }
 
   componentDidMount () {
@@ -25,25 +28,43 @@ export default class Comment extends Component {
     }
   }
 
+  toggle () {
+    if (this.state.toggle) {
+      let item = this.state.item
+      console.log(item)
+      this.setState({
+        toggle: false,
+        toggleTxt: `[+] ${(item.kids && item.kids.length) || 1} folded`
+      })
+    }
+    else {
+      this.setState({
+        toggle: true,
+        toggleTxt: `[-]`
+      })
+    }
+  }
   render () {
-    console.log("comment rendered")
-    let layer = this.state.layer
+    let state = this.state
     if (this.state.item === undefined) return null
+    let item = state.item
     return (
-      <div className={`item-comment comment-layer-${layer}`}>
-        <div dangerouslySetInnerHTML={{__html: this.state.item.text}}></div>
-          { this.state.kids ? 
-              (
-                <div>
-                  {this.state.kids.map((id, key) => 
-                    (
-                      <Comment id={id} key={id} layer={this.state.layer + 1}/>
-                    )
-                  )}
-                </div>
-              )
+      <div className={`item-comment ${this.state.toggle?" ":"fold"}`}>
+        <p className={"toggle"} onClick={() => this.toggle()}>{state.toggleTxt}</p>
+        { this.state.toggle &&
+          <>
+            <div className="comment-meta">
+              {`${item.by} ${timeDiff(item.time)[0]} ${timeDiff(item.time)[1]} ago`}
+            </div>
+
+            <div className="comment-inner" dangerouslySetInnerHTML={{__html: this.state.item.text}}></div>
+
+            { this.state.kids 
+              ? state.kids.map((id, key) => (<Comment id={id} key={id}/>))
               : (<div></div>)
-          }
+            }
+        </>
+      }
       </div>
     )
   }

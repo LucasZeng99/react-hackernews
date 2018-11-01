@@ -24,6 +24,7 @@ export function titleLink (item) {
 }
 
 export function urlHost (url) {
+  if (!url) return ""
   let secondSlash, thirdSlash = 0;
   for (let i = 0; i < 3; i++) {
     thirdSlash = url.indexOf('/', thirdSlash + 1)
@@ -47,12 +48,12 @@ export class ListCard extends Component{
       
       <div className="li-title">
         <div className="li-title-link"> {this.titleLink(this.props.item)} </div>
-        {urlHost(this.props.item.url)}
+        {urlHost(this.props.item.url) ? <p>({urlHost(this.props.item.url)})</p>:null}
       </div>
 
       <div className="li-meta">
         <div className="li-by">by {by} </div>
-        <div className="li-time"> {timeDiff} {phrase} ago </div>
+        <div className="li-time"> {timeDiff} {phrase} ago |</div>
         <Link to={'item/' + id}>
           {descendants && type !== 'job' ? (
             <p>{descendants} comments</p>
