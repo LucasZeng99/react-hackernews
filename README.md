@@ -1,6 +1,8 @@
 # React Hackernews Mock
 > yet another implementation of https://news.ycombinator.com/.
 
+check it out here: https://hackernews.lucaszzc.com
+
 ## mock to learn react.
 
 1. Design API to fetch data from firebase.
