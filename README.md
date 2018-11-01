@@ -9,8 +9,11 @@
 4. DOM events, practice styling(CSS) and mocking.
 
 ---
+
 every file and char is made with heart. If you find it flawed or yet to improve, please inform me via github issues. 
 
-My source of mocking is https://vue-hn.now.sh, made with Vue, please do check it out.
+My target of mocking is https://vue-hn.now.sh, made with Vue, please do check it out.
+
 ---
+
 License under MIT
